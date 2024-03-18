@@ -60,7 +60,7 @@ page 70108 "Book Lending Page"
                 // Update status to open
                 trigger OnAction()
                 begin
-                    Rec.Status:=Rec.Status::Open;
+                    Rec.Status := Rec.Status::Open;
                     LendingLinesTable.Reset();
                     LendingLinesTable.SetRange("Lending No", Rec."Book No");
                     // Check if book is booked morethan once
@@ -74,7 +74,7 @@ page 70108 "Book Lending Page"
                 end;
             }
 
-           action(Approve)
+            action(Approve)
             {
                 Caption = 'Approve';
                 ApplicationArea = All;
@@ -85,23 +85,8 @@ page 70108 "Book Lending Page"
                 // Update status to approved
                 trigger OnAction()
                 begin
-                    Rec.Status := Rec.Status::Approved;
-                    LendingLinesTable.Reset();
-                    LendingLinesTable.SetRange("Lending No", Rec."Book No");
-                    // Check if book is booked morethan once
-                    if LendingLinesTable.FindSet() then begin
-                        repeat//Makes all lines to be booked for that specific document
-                            LendingLinesTable.Status := LendingLinesTable.Status::Booked;
-                            LendingLinesTable.Modify();
-                            // check if book was booked
-                            CheckIfBookIsBooked.Reset();
-                            if CheckIfBookIsBooked.Get(LendingLinesTable."Book No") then begin
-                                CheckIfBookIsBooked.Status:=CheckIfBookIsBooked.Status::Booked;
-                                CheckIfBookIsBooked.Modify();
-                            end;
-                        until LendingLinesTable.Next() = 0;
-                    end;
-                    Rec.Modify();
+                    // Booking Function in LMS Management codeunit
+                    CallLMSCodeUnit.BookBooking(Rec);
                 end;
             }
         }
@@ -109,8 +94,9 @@ page 70108 "Book Lending Page"
     }
 
 
-var 
-LendingLinesTable: Record "Book Lending Lines";
-CheckIfBookIsBooked: Record Books;
+    var
+        LendingLinesTable: Record "Book Lending Lines";
+        CheckIfBookIsBooked: Record Books;
+        CallLMSCodeUnit: Codeunit "LMS Management";
 
 }
