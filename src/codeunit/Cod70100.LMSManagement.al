@@ -5,7 +5,6 @@ codeunit 70100 "LMS Management"
     procedure BookBooking(Rec: Record "Lending Books Header")
     begin
         Rec.Status := Rec.Status::Approved;
-        Rec.Status := Rec.Status::Approved;
         LendingLinesTable.Reset();
         LendingLinesTable.SetRange("Lending No", Rec."Book No");
         // Check if book is booked morethan once
