@@ -25,9 +25,15 @@ page 70102 Cues
                 }
                 field("Requests to Approve"; Rec."Requests to Approve")
                 {
+                    ToolTip = 'Specifies requests for certain documents, cards, or journal lines that you must approve for other users before they can proceed.';
                     ApplicationArea = Suite;
                     DrillDownPageID = "Requests to Approve";
-                    ToolTip = 'Specifies requests for certain documents, cards, or journal lines that you must approve for other users before they can proceed.';
+                    // Or use a trigger
+                    // trigger OnDrillDown()
+                    // begin
+                    //     Page.Run(Page::"Requests to Approve");
+                    // end;
+                    
                 }
             }
         }
