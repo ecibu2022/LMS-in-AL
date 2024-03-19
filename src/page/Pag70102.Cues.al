@@ -1,30 +1,51 @@
+namespace System.Automation;
+
 page 70102 Cues
 {
-    ApplicationArea = All;
-    Caption = 'Cues';
+    Caption = 'Approvals';
     PageType = CardPart;
-    SourceTable="Cues Table";
-    
+    RefreshOnActivate = true;
+    ShowFilter = false;
+    SourceTable = "Approvals Activities Cue";
+
     layout
     {
         area(content)
         {
-            cuegroup(General)
+            cuegroup(Approvals)
             {
-                Caption = 'General';
+                Caption = 'Pending Approvals';
                 CuegroupLayout=Wide;
-                
-                field(Requests;Rec.Requests)
-                {
-                    ApplicationArea=All;
 
-                    trigger OnDrillDown()
-                    begin
-                        Page.Run(Page::"Requests to Approve");
-                    end;
+                field("Requests Sent for Approval"; Rec."Requests Sent for Approval")
+                {
+                    ApplicationArea = Suite;
+                    DrillDownPageID = "Approval Entries";
+                    ToolTip = 'Specifies requests for certain documents, cards, or journal lines that your approver must approve before you can proceed.';
                 }
-                
+                field("Requests to Approve"; Rec."Requests to Approve")
+                {
+                    ApplicationArea = Suite;
+                    DrillDownPageID = "Requests to Approve";
+                    ToolTip = 'Specifies requests for certain documents, cards, or journal lines that you must approve for other users before they can proceed.';
+                }
             }
         }
+
     }
+
+    actions
+    {
+    }
+
+    trigger OnOpenPage()
+    begin
+        Rec.Reset();
+        if not Rec.Get() then begin
+            Rec.Init();
+            Rec.Insert();
+        end;
+        // Retrieve basing on User ID logged in to business central
+        Rec.SetRange("User ID Filter", UserId);
+    end;
 }
