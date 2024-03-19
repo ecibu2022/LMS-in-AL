@@ -35,8 +35,34 @@ page 70102 Cues
                     // end;
                     
                 }
+            
+        }
+
+        cuegroup(Approval)
+            {
+            Caption = 'Pending Approvals';
+
+                field("Requests Sent to Approval"; Rec."Requests Sent for Approval")
+                {
+                    ApplicationArea = Suite;
+                    DrillDownPageID = "Approval Entries";
+                    ToolTip = 'Specifies requests for certain documents, cards, or journal lines that your approver must approve before you can proceed.';
+                }
+                field("Requests for Approve"; Rec."Requests to Approve")
+                {
+                    ToolTip = 'Specifies requests for certain documents, cards, or journal lines that you must approve for other users before they can proceed.';
+                    ApplicationArea = Suite;
+                    DrillDownPageID = "Requests to Approve";
+                    // Or use a trigger
+                    // trigger OnDrillDown()
+                    // begin
+                    //     Page.Run(Page::"Requests to Approve");
+                    // end;
+
+                }
             }
         }
+
 
     }
 

@@ -28,7 +28,6 @@ page 70101 "Head Line"
     }
 
     var
-        HeadLine: Codeunit "RC Headlines Page Common";
         Heading1: Label 'Welcome to Mike''s Library Management System';
         Heading2: Label 'Thanks for logging in';
         Heading3: Label 'Book a book, return it and imporve on your knowledge';
